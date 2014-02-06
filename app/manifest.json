@@ -12,5 +12,27 @@
         "api": "1.39.2",
         "views": "1.56.1"
     },
-    "SupportedDeviceClasses": ["Desktop"]
+    "SupportedDeviceClasses": [
+        "Desktop"
+    ],
+    "DefaultTabs": [
+        {
+            "arguments": "index",
+            "title": {
+                "en": "Search"
+            }
+        },
+        {
+            "arguments": "playlist",
+            "title": {
+                "en": "Playlist"
+            }
+        },
+        {
+            "arguments": "blocked",
+            "title": {
+                "en": "Blocked"
+            }
+        }
+    ]
 }
