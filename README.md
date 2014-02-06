@@ -1,4 +1,4 @@
 Spotify.Remote
 ==============
 
-Manage a spotify playlist where additons can be made through an external service
+Manage a spotify playlist where additions can be made through an external service
