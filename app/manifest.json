@@ -1,0 +1,16 @@
+{
+    "AppName": {
+        "en": "Remote Manage"
+    },
+    "AppDescription": {
+        "en": "An application to manage a playlist in Spotify where the tracks are selected by external users."
+    },
+    "BundleIdentifier": "remote-manage",
+    "BundleType": "Application",
+    "BundleVersion": "0.0.1",
+    "Dependencies": {
+        "api": "1.39.2",
+        "views": "1.56.1"
+    },
+    "SupportedDeviceClasses": ["Desktop"]
+}
