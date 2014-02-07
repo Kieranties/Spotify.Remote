@@ -11,7 +11,7 @@ require([
 
   var obj = models.Album.fromURI("spotify:album:2mCuMNdJkoyiXFhsQCLLqw");
   var image = Image.forAlbum(obj);
-  var list = List.forPlaylist(obj);
+  var list = List.forAlbum(obj);
 
   document.getElementById('test-image').appendChild(image.node);
   document.getElementById('test-list').appendChild(list.node);
