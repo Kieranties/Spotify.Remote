@@ -34,8 +34,12 @@ require([
     bindLists();
   }
 
-  //bind to search box
-  document.getElementById('searchbox').addEventListener('search', function(evt){
-    doSearch(evt.currentTarget.value);
-  });
+    var init = function(){
+      //bind to search box
+      document.getElementById('searchbox').addEventListener('search', function(evt){
+        doSearch(evt.currentTarget.value);
+      });
+    }
+
+    exports.init = init;
 });

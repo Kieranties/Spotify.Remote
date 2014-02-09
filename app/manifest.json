@@ -14,25 +14,5 @@
     },
     "SupportedDeviceClasses": [
         "Desktop"
-    ],
-    "DefaultTabs": [
-        {
-            "arguments": "index",
-            "title": {
-                "en": "Search"
-            }
-        },
-        {
-            "arguments": "playlist",
-            "title": {
-                "en": "Playlist"
-            }
-        },
-        {
-            "arguments": "blocked",
-            "title": {
-                "en": "Blocked"
-            }
-        }
     ]
 }
