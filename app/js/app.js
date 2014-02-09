@@ -9,7 +9,7 @@ require([
   'use strict';
 
     // bind tabs controller
-    var ui = UI.init({
+    UI.init({
         header: true,
         history: true,
         views: [
@@ -22,10 +22,5 @@ require([
             {viewId: 'playlist', name: 'Playlist'},
             {viewId: 'blocked', name: 'Blocked'}
         ]
-    });
-
-    // bind events for tab change
-    ui.addEventListener('viewchange', function(evt){
-        console.log(evt);
     });
 });

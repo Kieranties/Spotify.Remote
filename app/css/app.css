@@ -1,3 +1,20 @@
 body { margin: 0px; }
+section { clear: both; }
+
 #wrap { margin: 8px; }
 .sp-header { display:none; }
+
+/* Artist results */
+#artist-results > div {
+    float: left;
+    margin: 8px;
+}
+
+#artist-results > div p {
+    text-align: center;
+    font-weight: bold;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
