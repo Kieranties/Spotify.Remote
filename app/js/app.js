@@ -4,10 +4,8 @@
 
 require([
   '$api/models',
-  '$views/ui#UI',
-  'js/search',
-  'js/playlist'
-], function(models, UI, search, playlist) {
+  '$views/ui#UI'
+], function(models, UI) {
   'use strict';
 
     // bind tabs controller
@@ -30,9 +28,4 @@ require([
     ui.addEventListener('viewchange', function(evt){
         console.log(evt);
     });
-
-    //init search
-    search.init();
-    //init playlist
-    playlist.init();
 });

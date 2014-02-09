@@ -5,8 +5,9 @@
 require([
   '$api/models',
   '$api/search',
-  '$views/list#List'
-], function(models, search, List) {
+  '$views/list#List',
+  '$views/image#Image'
+], function(models, search, List, Image) {
   'use strict';
 
   var lists = [];
@@ -26,20 +27,16 @@ require([
     })
     
     lists = [
-      { id: 'search-albums', list: List.forCollection(results.albums, {type: 'albums'}) },
-      { id: 'search-artists', list: List.forCollection(results.artists, {type: 'artists'}) },
-      { id: 'search-tracks', list: List.forCollection(results.tracks, {type: 'tracks'}) }
+      { id: 'album-results', list: List.forCollection(results.albums, {type: 'albums', fields: ['image', 'album', 'artist'], style: 'rounded'}) },
+      { id: 'artist-results', list: List.forCollection(results.artists, {type: 'artists', fields: ['image', 'artist'], style: 'rounded'}) },
+      { id: 'track-results', list: List.forCollection(results.tracks, {type: 'tracks', style: 'rounded'}) }
     ];
 
     bindLists();
   }
 
-    var init = function(){
-      //bind to search box
-      document.getElementById('searchbox').addEventListener('search', function(evt){
-        doSearch(evt.currentTarget.value);
-      });
-    }
-
-    exports.init = init;
+  //bind to search box
+  document.getElementById('searchbox').addEventListener('search', function(evt){
+    doSearch(evt.currentTarget.value);
+  });
 });
