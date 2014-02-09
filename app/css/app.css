@@ -3,14 +3,14 @@ section { clear: both; }
 
 #wrap { margin: 8px; }
 .sp-header { display:none; }
+.selected { background-color: silver; }
 
-/* Artist results */
-#artist-results > div {
+.image-view > div {
     float: left;
-    margin: 8px;
+    padding: 8px;
 }
 
-#artist-results > div p {
+.image-view > div p {
     text-align: center;
     font-weight: bold;
     max-width: 100px;

@@ -6,8 +6,9 @@ require([
   '$api/models',
   '$api/search',
   '$views/list#List',
-  '$views/image#Image'
-], function(models, search, List, Image) {
+  '$views/image#Image',
+  'js/utils'
+], function(models, search, List, Image, utils) {
   'use strict';
 
   var lists = [];
@@ -19,34 +20,33 @@ require([
     });    
   }
 
+  var bindImageView = function(collection, viewId, getImage, imgOptions){
+      if(!imgOptions) { imgOptions = {width: 100, height: 100};}
 
-    var getItem = function(item, index){
-        var image = item.image;
-        var name = item.name;
-        var node = "<li>" + name + "</li>";
+      collection.snapshot().done(function(snapshot){
+          var displayNode = document.getElementById(viewId);
+          displayNode.innerHTML = '';
+          for (var i = 0, max = snapshot.length; i < max; i++) {
+              var item = snapshot.get(i);
+              var image = getImage(item, imgOptions).node;
+              var title = utils.wrap(item.name, 'p');
 
-        return node;
-    }
+              var content = utils.wrap([image, title]);
+              content.addEventListener('click', function(){
+                this.classList.toggle('selected');
+              });
+
+              displayNode.appendChild(content);
+          }
+      })
+  }
 
   var doSearch = function(query){
     var results = search.Search.search(query);
 
-
-      results.artists.snapshot(0).done(function(snapshot){
-          var wrapper = document.getElementById('artist-results');
-          wrapper.innerHTML = '';
-          for (var i = 0, max = snapshot.length; i < max; i++) {
-              var artist = snapshot.get(i);
-              var image = Image.forArtist(artist, {width: 100, height: 100}).node;
-              var title = document.createElement('p');
-              title.innerText = artist.name;
-
-              var entry = document.createElement('div');
-              entry.appendChild(image);
-              entry.appendChild(title);
-              wrapper.appendChild(entry);
-          }
-      })
+    bindImageView(results.artists, 'artist-results', Image.forArtist);
+    bindImageView(results.albums, 'album-results', Image.forAlbum);
+    bindImageView(results.tracks, 'track-results', Image.forTrack, {width:32, height:32});
 //
 //    lists.forEach(function(entry){
 //      entry.list.destroy();
