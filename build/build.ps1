@@ -6,4 +6,4 @@ param(
 Remove-Module [p]sake
 Import-Module Psake
 
-Invoke-psake .\build.tasks.ps1 -properties $properties -taskList $tasks
+Invoke-psake $PSScriptRoot\build.tasks.ps1 -properties $properties -taskList $tasks
