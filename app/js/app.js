@@ -25,21 +25,16 @@ require([
         ]
     });
 
+
     // add buttons for search listing navigation
-    var artistsBtn = Button.withLabel('Artists');
-    var albumsBtn = Button.withLabel('Albums');
-    var tracksBtn = Button.withLabel('Tracks');
     var wrapper = document.getElementById('search-control');
-    artistsBtn.node.addEventListener('click', function(){
-        document.getElementById('artists').scrollIntoView();
+
+    ['Artists','Albums','Tracks'].forEach(function(entry){
+        // nav node
+        var btn = Button.withLabel(entry);
+        btn.node.addEventListener('click', function(){
+            document.getElementById(entry.toLowerCase()).scrollIntoView();
+        });
+        wrapper.appendChild(btn.node);
     });
-    albumsBtn.node.addEventListener('click', function(){
-        document.getElementById('albums').scrollIntoView();
-    });
-    tracksBtn.node.addEventListener('click', function(){
-        document.getElementById('tracks').scrollIntoView();
-    });
-    wrapper.appendChild(artistsBtn.node);
-    wrapper.appendChild(albumsBtn.node);
-    wrapper.appendChild(tracksBtn.node);
 });
