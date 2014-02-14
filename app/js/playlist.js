@@ -8,19 +8,14 @@ require([
 ], function(models, Library) {
   'use strict';
 
-    var getPlaylistByName = function(playlistName){
+    var getPlaylists = function(){
         var promise = new models.Promise();
-        Library.forCurrentUser().playlists.snapshot().done(function(snapshot){
-            var found = null;
-            snapshot.toArray().forEach(function(playlist){
-                if(playlist && playlist.subscribed && playlist.name === playlistName){
-                    found = playlist;
-                    return;
-                }
-            });
-            if(found){ promise.setDone(found); }
-            else { promise.setFail("No playlist found"); }
-        });
+
+        Library.forCurrentUser().playlists.snapshot()
+            .done(function(snapshot){
+                promise.setDone(snapshot.toArray());
+            }).fail(promise.setFail);
+
         return promise;
     }
 
@@ -32,25 +27,16 @@ require([
                 if(pl.subscribed){ promise.setDone(pl) }
                 else { promise.setFail(pl, 'Not subscribed.')}
             })
-            .fail(function(err, msg){ promise.setFail(err,msg);});
+            .fail(promise.setFail);
 
         return promise;
     }
 
     var createPlaylist = function(playlistName){
-        var promise = new models.Promise();
-        getPlaylistByName(playlistName)
-            .done(function(pl){ promise.setDone(pl); })
-            .fail(function(){
-                models.Playlist.create(playlistName)
-                    .done(function(pl){ promise.setDone(pl); })
-                    .fail(function(err, msg){ promise.setFail(err, msg);})
-            });
-
-        return promise;
+        return models.Playlist.create(playlistName);
     }
 
     exports.createPlaylist = createPlaylist;
-    exports.getPlaylistByName = getPlaylistByName;
     exports.getPlaylistByUri = getPlaylistByUri;
+    exports.getPlaylists = getPlaylists;
 });

@@ -5,41 +5,33 @@
 require([
   '$api/models',
   '$views/buttons#Button',
+  '$views/popup#Popup',
   'js/playlist',
   'js/storage',
   'js/utils'
-], function(models, Button, playlist, store, utils) {
+], function(models, Button, Popup, playlist, store, utils) {
   'use strict';
 
-    var setPlaylistSetting = function(element, playlist){
-        store.set(element.id, playlist.uri);
-        element.setAttribute("data-playlist-uri", playlist.uri);
-        element.innerHTML = playlist.name;
+    var initControlButtons = function(){
+        utils.ui.addToggleButton([
+            { label:"Edit", click: editSettings},
+            { label:"Save", click: saveSettings}
+        ], "control");
+        utils.ui.addButton("Sync", syncPlaylists, "control").setAccentuated(true);
+    }
+
+    var setPlaylistLink = function(id, playlist){
+        var link = utils.ui.getUriLink(playlist);
+
+        var el = document.getElementById(id);
+        el.setAttribute("data-playlist-uri", playlist.uri);
+        el.innerHTML = '';
+        el.appendChild(link);
     }
 
     var forEachPlaylistSetting = function(callback){
         var elements = document.querySelectorAll(".list-setting");
         utils.forEach(elements, callback);
-    }
-
-    var createMissingPlaylists = function(){
-        forEachPlaylistSetting(function(el){
-            var uri = el.getAttribute("data-playlist-uri");
-            if(!uri){
-                playlist.createPlaylist(el.id)
-                    .done(function(pl){ setPlaylistSetting(el, pl); })
-                    .fail(function(err, msg){ console.log(err, msg)});
-            }
-        });
-    }
-
-    var initControlButtons = function(missingPlaylists){
-        if(missingPlaylists){
-            utils.ui.addButton("Create Missing Playlists", createMissingPlaylists, "control");
-        } else {
-            utils.ui.addButton("Sync", syncPlaylists, "control");
-        }
-        utils.ui.addButton("Save", saveSettings, "control");
     }
 
     var loadSettings = function(){
@@ -58,7 +50,7 @@ require([
             else {
                 playlist.getPlaylistByUri(uri)
                     .done(function(pl){
-                        setPlaylistSetting(el, pl);
+                        setPlaylistLink(el.id, pl);
                         promise.setDone();
                     })
                     .fail(function(){setFail(el, promise); });
@@ -70,15 +62,75 @@ require([
     }
 
     var saveSettings = function(){
-        // nothing to do yet
+
+        var selectors = document.querySelectorAll(".list-setting > select");
+        var validation = {};
+        var results = utils.map(selectors, function(select){
+            var uri = select.value;
+            if(!!uri){
+                var key = JSON.stringify(uri);
+                var val = validation[key] || 0;
+                validation[key] = val+1;
+            }
+            return {
+                id: select.parentNode.id,
+                uri: uri
+            }
+        });
+        var error;
+        utils.forEach(Object.keys(validation), function(key){
+            if(validation[key] > 1){
+                error = 'You cannot use the same playlist for more than one setting.';
+            }
+        });
+        console.log(results);
+        if(!error){
+            var set = function(id, playlist){
+                store.set(id, playlist.uri);
+                setPlaylistLink(id, playlist);
+            }
+            utils.forEach(results, function(result){
+                if(result.uri){
+                    playlist.getPlaylistByUri(result.uri).done(function(pl){
+                        set(result.id, pl);
+                    });
+                } else {
+                    playlist.createPlaylist(result.id, result.id).done(function(pl){
+                        set(result.id, pl);
+                    })
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
     }
 
     var syncPlaylists = function(){
         //nothing to do yet
     }
 
+    var editSettings = function(){
+        var createNew = utils.make('option', 'Create new playlist', { value: ''});
+        var dropdown = utils.wrap(createNew, 'select');
+        playlist.getPlaylists().done(function(playlists){
+            playlists.forEach(function(pl){
+                if(!!pl){
+                    var option = utils.make('option', pl.name, { value: pl.uri});
+                    dropdown.appendChild(option);
+                }
+            });
+            forEachPlaylistSetting(function(element){
+                element.innerHTML = '';
+                var clone = dropdown.cloneNode(true);
+                clone.value = element.getAttribute('data-playlist-uri');
+                element.appendChild(clone);
+            });
+        });
+        return true;
+    }
+
     // load the settings and initialize ui
-    loadSettings()
-        .done(function(){ initControlButtons(false)})
-        .fail(function(){ initControlButtons(true)});
+    loadSettings();
+    initControlButtons();
 });
