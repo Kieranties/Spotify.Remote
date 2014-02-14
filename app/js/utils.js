@@ -1,8 +1,8 @@
 /*
     Various utilities
- */
-// need to add a odule so it can be used through require....?
-require(['$api/models'],function(models){
+*/
+
+require(['$views/buttons#Button',],function(Button){
     'use strict';
 
     var wrap = function(elements,tagName){
@@ -13,12 +13,27 @@ require(['$api/models'],function(models){
         else {
             if(!Array.isArray(elements)) { elements = [elements];}
 
-            elements.forEach(function(el){
+            forEach(elements, function(el){
                 wrapper.appendChild(el);
             });
         }
         return wrapper;
     }
 
+    var forEach = function(array, callback){
+        [].forEach.call(array,callback);
+    }
+
+    var addButton = function(label, clickHandler, parentId){
+        var parent = document.getElementById(parentId);
+
+        var btn = Button.withLabel(label);
+        btn.node.addEventListener('click', clickHandler);
+        parent.appendChild(btn.node);
+    }
+
+
     exports.wrap =  wrap;
+    exports.forEach = forEach;
+    exports.ui = { addButton: addButton };
 });

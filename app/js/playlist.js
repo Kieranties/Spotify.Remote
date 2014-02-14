@@ -13,7 +13,7 @@ require([
         Library.forCurrentUser().playlists.snapshot().done(function(snapshot){
             var found = null;
             snapshot.toArray().forEach(function(playlist){
-                if(playlist && playlist.name === playlistName){
+                if(playlist && playlist.subscribed && playlist.name === playlistName){
                     found = playlist;
                     return;
                 }
@@ -24,10 +24,23 @@ require([
         return promise;
     }
 
+    var getPlaylistByUri = function(uri){
+        var promise = new models.Promise();
+
+        models.Playlist.fromURI(uri).load(['name','tracks'])
+            .done(function(pl){
+                if(pl.subscribed){ promise.setDone(pl) }
+                else { promise.setFail(pl, 'Not subscribed.')}
+            })
+            .fail(function(err, msg){ promise.setFail(err,msg);});
+
+        return promise;
+    }
+
     var createPlaylist = function(playlistName){
         var promise = new models.Promise();
         getPlaylistByName(playlistName)
-            .done(function(pl){ promise.setFail(pl, "Playlist exists"); })
+            .done(function(pl){ promise.setDone(pl); })
             .fail(function(){
                 models.Playlist.create(playlistName)
                     .done(function(pl){ promise.setDone(pl); })
@@ -39,4 +52,5 @@ require([
 
     exports.createPlaylist = createPlaylist;
     exports.getPlaylistByName = getPlaylistByName;
+    exports.getPlaylistByUri = getPlaylistByUri;
 });
