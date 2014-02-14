@@ -2,19 +2,8 @@ body { margin: 0px; }
 section { clear: both; }
 
 #wrap { margin: 8px; }
-.sp-header { display:none; }
-.selected { background-color: silver; }
-
-.image-view > div {
-    float: left;
-    padding: 8px;
-}
-
-.image-view > div p {
-    text-align: center;
-    font-weight: bold;
-    max-width: 100px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+#control {
+    border-top: solid black 1px;
+    text-align: right;
+    padding-top: 8px;
 }

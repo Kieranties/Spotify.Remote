@@ -4,16 +4,39 @@
 
 require([
   '$api/models',
-  '$views/image#Image',
-  '$views/list#List'
-], function(models, Image, List) {
+  '$api/library#Library'
+], function(models, Library) {
   'use strict';
 
-    var obj = models.Album.fromURI("spotify:album:2mCuMNdJkoyiXFhsQCLLqw");
-    var image = Image.forAlbum(obj);
-    var list = List.forAlbum(obj);
+    var getPlaylistByName = function(playlistName){
+        var promise = new models.Promise();
+        Library.forCurrentUser().playlists.snapshot().done(function(snapshot){
+            var found = null;
+            snapshot.toArray().forEach(function(playlist){
+                if(playlist && playlist.name === playlistName){
+                    found = playlist;
+                    return;
+                }
+            });
+            if(found){ promise.setDone(found); }
+            else { promise.setFail("No playlist found"); }
+        });
+        return promise;
+    }
 
-    document.getElementById('test-image').appendChild(image.node);
-    document.getElementById('test-list').appendChild(list.node);
-    list.init();
+    var createPlaylist = function(playlistName){
+        var promise = new models.Promise();
+        getPlaylistByName(playlistName)
+            .done(function(pl){ promise.setFail(pl, "Playlist exists"); })
+            .fail(function(){
+                models.Playlist.create(playlistName)
+                    .done(function(pl){ promise.setDone(pl); })
+                    .fail(function(err, msg){ promise.setFail(err, msg);})
+            });
+
+        return promise;
+    }
+
+    exports.createPlaylist = createPlaylist;
+    exports.getPlaylistByName = getPlaylistByName;
 });

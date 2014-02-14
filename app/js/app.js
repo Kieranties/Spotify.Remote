@@ -3,38 +3,28 @@
 */
 
 require([
-  '$api/models',
-  '$views/ui#UI',
-  '$views/buttons#Button'
-], function(models, UI, Button) {
+  '$views/buttons#Button',
+  'js/playlist'
+], function(Button, playlist) {
   'use strict';
 
-    // bind tabs controller
-    UI.init({
-        header: true,
-        history: true,
-        views: [
-            {id: 'search', element: document.getElementById('search-view')},
-            {id: 'playlist', element: document.getElementById('playlist-view')},
-            {id: 'blocked', element: document.getElementById('blocked-view')}
-        ],
-        tabs: [
-            {viewId: 'search', name: 'Search'},
-            {viewId: 'playlist', name: 'Playlist'},
-            {viewId: 'blocked', name: 'Blocked'}
-        ]
-    });
-
-
     // add buttons for search listing navigation
-    var wrapper = document.getElementById('search-control');
+    var wrapper = document.getElementById('control');
 
-    ['Artists','Albums','Tracks'].forEach(function(entry){
-        // nav node
-        var btn = Button.withLabel(entry);
-        btn.node.addEventListener('click', function(){
-            document.getElementById(entry.toLowerCase()).scrollIntoView();
-        });
-        wrapper.appendChild(btn.node);
+    var syncBtn = Button.withLabel("Sync");
+    syncBtn.node.addEventListener('click', function(){
+        // do sync
     });
+
+    var saveBtn = Button.withLabel("Save");
+    saveBtn.node.addEventListener('click', function(){
+        // do save
+        playlist.createPlaylist('Megadeth').always(function(x, y) { console.log(x,y); });
+        playlist.createPlaylist('fail').always(function(x, y) { console.log(x, y); });
+        playlist.createPlaylist('humble bundle').always(function(x, y) { console.log(x, y); });
+
+    });
+
+    wrapper.appendChild(syncBtn.node);
+    wrapper.appendChild(saveBtn.node);
 });
