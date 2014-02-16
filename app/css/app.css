@@ -1,6 +1,7 @@
 body { margin: 0px; }
-section { clear: both; }
+hr { clear: both; }
 select { width: 100% }
+a { color: black; }
 
 #wrap { margin: 8px; }
 #settings > div {
@@ -9,8 +10,16 @@ select { width: 100% }
     margin:8px;
     float:left;
 }
+
 #control {
-    border-top: solid black 1px;
-    text-align: right;
+    float: right;
     padding-top: 8px;
 }
+
+/* Logging */
+#log { float:left; }
+#log > span { display: block; }
+.info { color: blue; }
+.warn { color: orangered; }
+.error { color: red; }
+.success { color: green; }
