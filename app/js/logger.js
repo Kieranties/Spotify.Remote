@@ -10,7 +10,7 @@ require([
     var init = function(element){
 
         this.success = function(msg){
-            console.success.apply(console, arguments);
+            console.log.apply(console, arguments);
             writeToElement(msg, 'success');
         }
 
