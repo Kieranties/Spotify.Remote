@@ -8,9 +8,12 @@ require([
   '$views/popup#Popup',
   'js/playlist',
   'js/storage',
-  'js/utils'
-], function(models, Button, Popup, playlist, store, utils) {
+  'js/utils',
+  'js/logger'
+], function(models, Button, Popup, playlist, store, utils, logger) {
   'use strict';
+
+    var log = new logger.Log(document.getElementById('log'));
 
     var initControlButtons = function(){
         utils.ui.addToggleButton([
@@ -27,6 +30,8 @@ require([
         el.setAttribute("data-playlist-uri", playlist.uri);
         el.innerHTML = '';
         el.appendChild(link);
+
+        log.info(el.id + " - Current playlist: " + playlist.uri);
     }
 
     var forEachPlaylistSetting = function(callback){
@@ -35,30 +40,24 @@ require([
     }
 
     var loadSettings = function(){
-        var promises = [];
 
-        var setFail = function(el, promise){
+        var setFail = function(el){
             el.innerHTML = "No playlist found.";
-            promise.setFail();
+            log.warn(el.id + " - No playlist found.");
         }
 
         forEachPlaylistSetting(function(el){
-            var promise = new models.Promise();
             var uri = store.get(el.id);
 
-            if(!uri) { setFail(el, promise); }
+            if(!uri) { setFail(el); }
             else {
                 playlist.getPlaylistByUri(uri)
                     .done(function(pl){
                         setPlaylistLink(el.id, pl);
-                        promise.setDone();
                     })
-                    .fail(function(){setFail(el, promise); });
+                    .fail(function(){setFail(el); });
             }
-            promises.push(promise);
         });
-
-        return models.Promise.join(promises);
     }
 
     var saveSettings = function(){
@@ -83,10 +82,10 @@ require([
                 error = 'You cannot use the same playlist for more than one setting.';
             }
         });
-        console.log(results);
         if(!error){
             var set = function(id, playlist){
                 store.set(id, playlist.uri);
+                log.success(id + " - Playlist updated");
                 setPlaylistLink(id, playlist);
             }
             utils.forEach(results, function(result){
@@ -102,12 +101,14 @@ require([
             });
             return true;
         } else {
+            log.error(error, validation);
             return false;
         }
     }
 
     var syncPlaylists = function(){
         //nothing to do yet
+        log.info("Sync in progress");
     }
 
     var editSettings = function(){
