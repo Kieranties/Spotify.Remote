@@ -25,7 +25,7 @@ module.exports = {
      */
     index: function (req, res) {
         console.log('hello from home');
-        res.view({
+        return res.view({
             title: 'Weddify',
             css: ['/css/home.css']
         });
@@ -37,8 +37,8 @@ module.exports = {
      * (specific to HomeController)
      */
     _config: {
-        actions: false,
-        rest: false
+        //actions: false,
+        //rest: false
     }
 
 

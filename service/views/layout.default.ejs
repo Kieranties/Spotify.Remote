@@ -11,11 +11,11 @@
     <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/superhero/bootstrap.min.css" rel="stylesheet">
     <!-- CDN sources -->
 
-    <% if(css){ %>
+    <% if(hasOwnProperty('css')){ %>
         <% css.forEach(function(path){ %>
             <link href="<%= path %>" rel="stylesheet">
         <% }) %>
-    <% }%>
+    <% } %>
 </head>
 
 <body>
