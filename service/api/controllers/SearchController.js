@@ -23,8 +23,6 @@ module.exports = {
    *    `/search/Index`
    */
    Index: function (req, res) {
-    
-    // Send a JSON response
     res.view();
   },
 
