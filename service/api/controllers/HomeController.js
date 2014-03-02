@@ -26,7 +26,7 @@ module.exports = {
     index: function (req, res) {
         console.log('hello from home');
         return res.view({
-            title: 'Weddify',
+            title: 'Wedding Playlist',
             css: ['/css/home.css']
         });
     },

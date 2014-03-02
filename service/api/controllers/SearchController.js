@@ -23,7 +23,16 @@ module.exports = {
    *    `/search/Index`
    */
    Index: function (req, res) {
-    res.view();
+    return res.view({
+        search: {
+            artists: [
+                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ',
+                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ',
+                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ'
+            ],
+            albums: []
+        }
+    });
   },
 
 

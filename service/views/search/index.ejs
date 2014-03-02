@@ -30,12 +30,14 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
+
+<!-- Search -->
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Search</h3>
     </div>
     <div class="panel-body">
-        <form class="form" role="form">
+        <form class="form" role="form" id="searchForm">
             <div class="form-group">
                 <label class="sr-only" for="search">Search</label>
                 <input type="search" class="form-control" id="search" placeholder="Add something awesome...!">
@@ -44,9 +46,44 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <!-- Artist results -->
+        <div class="panel panel-info" id="artist-results">
+            <div class="panel-heading">
+                <h3 class="panel-title">Artists<span class="badge pull-right result-count">0</span></h3>
+            </div>
+            <div class="panel-body result-list">
+            </div>
+            <div class="panel-footer">
+                <ul class="pager">
+                    <li class="next"><a href="#">All artists &rarr;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Album results -->
+        <div class="panel panel-info" id="album-results">
+            <div class="panel-heading">
+                <h3 class="panel-title">Albums<span class="badge pull-right result-count">0</span></h3>
+            </div>
+            <div class="panel-body result-list">
+
+            </div>
+            <div class="panel-footer">
+                <ul class="pager">
+                    <li class="next"><a href="#">All albums &rarr;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Track Results -->
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3 class="panel-title">Tracks</h3>
+        <h3 class="panel-title">Tracks<span class="badge pull-right">42</span></h3>
     </div>
     <div class="panel-body">
         <div class="table-responsive">
@@ -81,5 +118,34 @@
                 </tbody>
             </table>
         </div>
+
+    </div>
+    <div class="panel-footer">
+        <div class="text-center">
+            <ul class="pagination">
+                <li class="disabled"><span>&laquo;</span></li>
+                <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<!-- Handlebars templates -->
+<script id="simple-result" type="text/x-handlebars-template">
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="{{href}}">
+                <img src="{{artwork}}" alt="{{name}}"/>
+
+                <div class="caption">
+                    <h3>{{name}}</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</script>
