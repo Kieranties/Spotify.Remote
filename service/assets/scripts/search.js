@@ -5,11 +5,11 @@ $(function(){
     };
 
     var getArtwork = function(query, callback){
-        var url = 'https://embed.spotify.com/oembed/?callback=?';
+        var url = 'http://embed.spotify.com/oembed/?callback=?';
         $.getJSON(url, {url: query}, function(resp){
            callback(resp.thumbnail_url);
         });
-    }
+    };
 
     var searchTracks = function(query, pg){
         var uri = 'http://ws.spotify.com/search/1/track.json';
@@ -28,11 +28,11 @@ $(function(){
                         artistName: track.artists[0].name,
                         albumName: track.album.name
                     }));
-                })
-
+                });
             });
-        })
-    }
+        });
+    };
+
     var searchArtist = function(query, limit){
         var uri = 'http://ws.spotify.com/search/1/artist.json';
         var $wrap = $('#artist-results');
@@ -47,11 +47,10 @@ $(function(){
                         name: artist.name,
                         artwork: artwork
                     }));
-                })
-
+                });
             });
         });
-    }
+    };
 
     var searchAlbum = function(query, limit){
         var uri = 'http://ws.spotify.com/search/1/album.json';
@@ -67,20 +66,29 @@ $(function(){
                         name: album.name,
                         artwork: artwork
                     }));
-                })
-
+                });
             });
         });
+    };
+
+    var getQsParam = function(name) {
+        var half = location.search.split(name + '=')[1];
+        return half ? decodeURIComponent(half.split('&')[0]) : null;
     }
 
     var doSearch = function(){
-        $('.result-count, .result-list').empty();
         var query = $('#search').val();
-        searchArtist(query, 3);
-        searchAlbum(query, 3);
-        searchTracks(query, 1);
+        if(!!query){
+            $('.result-count, .result-list').empty();
+            searchArtist(query, 3);
+            searchAlbum(query, 3);
+            searchTracks(query, 1);
+            history.pushState(null, null, "?q=" + query);
+        }
         return false;
     }
 
     $('#searchForm').on('submit', doSearch);
+    $('#search').val(getQsParam('q'));
+    doSearch();
 })

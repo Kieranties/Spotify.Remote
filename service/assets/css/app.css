@@ -1,0 +1,10 @@
+.caption .single-line {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.table .result-list img {
+    height: 60px;
+    width: 60px;
+}

@@ -40,7 +40,7 @@
         <form class="form" role="form" id="searchForm">
             <div class="form-group">
                 <label class="sr-only" for="search">Search</label>
-                <input type="search" name="search" class="form-control" id="search" placeholder="Add something awesome...!">
+                <input type="search" name="q" class="form-control" id="search" placeholder="Add something awesome...!">
             </div>
         </form>
     </div>
@@ -125,8 +125,8 @@
         <div class="thumbnail">
             <a href="/search/artist/{{href}}">
                 <img src="{{artwork}}" alt="{{name}}"/>
-                <div class="caption">
-                    <h4>{{name}}</h4>
+                <div class="caption text-center">
+                    <p class="single-line">{{name}}</p>
                 </div>
             </a>
         </div>
