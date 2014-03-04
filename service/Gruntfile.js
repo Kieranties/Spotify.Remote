@@ -120,7 +120,6 @@ module.exports = function (grunt) {
     return 'assets/' + path;
   });
 
-
   // Get path to core grunt dependencies from Sails
   var depsPath = grunt.option('gdsrc') || 'node_modules/sails/node_modules';
   grunt.loadTasks(depsPath + '/grunt-contrib-clean/tasks');

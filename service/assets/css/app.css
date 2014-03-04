@@ -8,3 +8,8 @@
     height: 60px;
     width: 60px;
 }
+
+.static img {
+    height: 300px;
+    width: 300px;
+}

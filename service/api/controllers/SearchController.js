@@ -23,16 +23,7 @@ module.exports = {
    *    `/search/Index`
    */
    Index: function (req, res) {
-    return res.view({
-        search: {
-            artists: [
-                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ',
-                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ',
-                'spotify:artist:7ae4vgLLhir2MCjyhgbGOQ'
-            ],
-            albums: []
-        }
-    });
+    return res.view({});
   },
 
 
@@ -41,11 +32,7 @@ module.exports = {
    *    `/search/Artist`
    */
    Artist: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
+    return res.view({});
   },
 
 
@@ -54,11 +41,7 @@ module.exports = {
    *    `/search/Album`
    */
    Album: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
+      return res.view({});
   },
 
 

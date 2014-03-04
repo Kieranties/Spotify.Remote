@@ -1,82 +1,13 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Weddify</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Current Playlist</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blocked <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Artists</a></li>
-                        <li><a href="#">Albums</a></li>
-                        <li><a href="#">Tracks</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
-<!-- Search -->
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">Search</h3>
-    </div>
-    <div class="panel-body">
-        <form class="form" role="form" id="searchForm">
-            <div class="form-group">
-                <label class="sr-only" for="search">Search</label>
-                <input type="search" name="q" class="form-control" id="search" placeholder="Add something awesome...!">
-            </div>
-        </form>
-    </div>
-</div>
+<%- partial('partials/search')%>
 
 <div class="row">
     <div class="col-md-6">
         <!-- Artist results -->
-        <div class="panel panel-info" id="artist-results">
-            <div class="panel-heading">
-                <h3 class="panel-title">Artists<span class="badge pull-right result-count">0</span></h3>
-            </div>
-            <div class="panel-body result-list">
-            </div>
-            <div class="panel-footer">
-                <ul class="pager">
-                    <li class="next"><a href="#">All artists &rarr;</a></li>
-                </ul>
-            </div>
-        </div>
+        <%- partial('partials/imageList', {title: 'Artists', name: 'artist', simple: true, fixedImageClass: ''})%>
     </div>
     <div class="col-md-6">
         <!-- Album results -->
-        <div class="panel panel-info" id="album-results">
-            <div class="panel-heading">
-                <h3 class="panel-title">Albums<span class="badge pull-right result-count">0</span></h3>
-            </div>
-            <div class="panel-body result-list">
-
-            </div>
-            <div class="panel-footer">
-                <ul class="pager">
-                    <li class="next"><a href="#">All albums &rarr;</a></li>
-                </ul>
-            </div>
-        </div>
+        <%- partial('partials/imageList', {title: 'Albums', name: 'album', simple: true, fixedImageClass: ''})%>
     </div>
 </div>
 
@@ -105,41 +36,16 @@
 
     </div>
     <div class="panel-footer">
-        <div class="text-center">
-            <ul class="pagination">
-                <li class="disabled"><span>&laquo;</span></li>
-                <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&raquo;</a></li>
-            </ul>
-        </div>
+        <%- partial('../partials/pagination')%>
     </div>
 </div>
 
-<!-- Handlebars templates -->
-<script id="simple-result" type="text/x-handlebars-template">
-    <div class="col-md-4">
-        <div class="thumbnail">
-            <a href="/search/artist/{{href}}">
-                <img src="{{artwork}}" alt="{{name}}"/>
-                <div class="caption text-center">
-                    <p class="single-line">{{name}}</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</script>
-
-<script id="track-row" type="text/x-handlebars-template">
-    <tr>
-        <td>{{count}}</td>
-        <td><img src="{{artwork}}" alt="{{name}}"/></td>
-        <td>{{name}}</td>
-        <td>{{artistName}}</td>
-        <td>{{albumName}}</td>
-        <td><button data-uri="{{href}}">Add</button></td>
-    </tr>
+<script>
+    $(function(){
+        document.$$.bindSearch(function(query){
+            $('#track-results').spotify('track', query, {artwork:60, template: 'trackRow'});
+            $('#album-results').spotify('album', query, {limit: 3});
+            $('#artist-results').spotify('artist', query, {limit: 3});
+        });
+    });
 </script>

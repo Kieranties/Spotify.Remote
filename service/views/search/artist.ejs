@@ -1,0 +1,11 @@
+<%- partial('partials/search') %>
+<%- partial('partials/imageList', {title: 'Artists', name: 'artist', simple: false, fixedImageClass: 'static'}) %>
+<%- partial('../partials/handlebars') %>
+
+<script>
+    $(function () {
+        document.$$.bindSearch(function (query) {
+            $('#artist-results').spotify('artist', query);
+        });
+    });
+</script>

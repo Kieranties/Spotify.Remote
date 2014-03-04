@@ -1,0 +1,24 @@
+<!-- Handlebars templates -->
+<script id="hb-simple-result" type="text/x-handlebars-template">
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="/search/{{type}}/{{href}}">
+                <img src="{{artwork}}" alt="{{name}}" />
+                <div class="caption text-center">
+                    <p class="single-line">{{name}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</script>
+
+<script id="hb-track-row" type="text/x-handlebars-template">
+    <tr>
+        <td>{{count}}</td>
+        <td><img src="{{artwork}}" alt="{{name}}"/></td>
+        <td>{{name}}</td>
+        <td>{{artist}}</td>
+        <td>{{album}}</td>
+        <td><button data-uri="{{href}}">Add</button></td>
+    </tr>
+</script>

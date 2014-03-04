@@ -1,0 +1,16 @@
+<div class="panel panel-default" id="<%- name %>-results">
+    <div class="panel-heading">
+        <h2 class="panel-title"><%- title %><span class="badge pull-right result-count">0</span></h2>
+    </div>
+    <div class="panel-body result-list <%- fixedImageClass %>">
+    </div>
+    <div class="panel-footer">
+        <% if(simple) { %>
+            <ul class="pager">
+                <li class="next"><a href="/search/<%- name %>">All <%- name %>s &rarr;</a></li>
+            </ul>
+        <% } else { %>
+            <%- partial('../../partials/pagination') %>
+        <% } %>
+    </div>
+</div>
