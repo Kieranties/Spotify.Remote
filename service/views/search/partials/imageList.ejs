@@ -10,7 +10,7 @@
                 <li class="next"><a href="/search/<%- name %>">All <%- name %>s &rarr;</a></li>
             </ul>
         <% } else { %>
-            <%- partial('../../partials/pagination') %>
+            <%- partial('../../partials/pagination', {max: 10, current: 5, q: 'monkey'}) %>
         <% } %>
     </div>
 </div>

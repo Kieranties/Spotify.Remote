@@ -1,11 +1,18 @@
 <div class="text-center">
     <ul class="pagination">
-        <li class="disabled"><span>&laquo;</span></li>
-        <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
+        <% var maxCount = Math.min(max, current + 10)%>
+        <% if(current === 1) { %>
+            <li class="disabled"><span>&laquo;</span></li>
+        <% } else { %>
+            <li><a href="?q=<%- q %>&pg=<%- current-1 %>">&laquo;</a></li>
+        <% } %>
+        <% for(var i = current; i < maxCount; i++){ %>
+            <li><a href="?q=<%- q %>&pg=<%- i %>"><%- i %></a></li>
+        <% } %>
+        <% if(current === 1) { %>
+            <li class="disabled"><span>&raquo;</span></li>
+        <% } else { %>
+            <li><a href="?q=<%- q %>&pg=<%- current+1 %>">&raquo;</a></li>
+        <% } %>
     </ul>
 </div>
